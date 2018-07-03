@@ -137,10 +137,12 @@ A convenient way to visualise multivariate data is with an NMDS plot from the ve
 >GeneraP.nmds <- metaMDS(GeneraKrakenP)
 ```
 
+Then we pull scores:
 ```
 >nmds_df<-scores(GeneraP.nmds,display=c("sites"))
 ```
 
+Create a user defined color scale:
 ```
 >library(RColorBrewer)
 >library(ggplot2)
@@ -148,24 +150,77 @@ A convenient way to visualise multivariate data is with an NMDS plot from the ve
 >sc <- scale_colour_gradientn(colours = crp2(100), limits=c(0, 0.7))
 ```
 
+Combine meta data with genera proportions:
 ```
 meta_nmds.df <- cbind.data.frame(nmds_df,metaS)
 ```
 
+Plot them with meta data:
 ```
 >p<-ggplot(data=meta_nmds.df,aes(NMDS1,NMDS2,colour=AgriH,shape=Tributary)) + geom_point(size=3) + sc + theme_bw()
 ```
 
+Save to file:
 ```
 >pdf("NMDS.pdf")
 >plot(p)
 >dev.off()
 ```
 
+Should give:
 ![NMDS](./Figures/NMDS.png) 
+
+Can you repeat above analysis with species proportions?
+
 
 ## Thames assembly based analysis
 
 <a name="assembly"/>
 
+Try an assembly with just four samples:
+```
+megahit -1 Reads/p5_A01_Sub_R1.fastq,Reads/p5_F03_Sub_R1.fastq,Reads/p5_A02_Sub_R1.fastq,Reads/p5_F04_Sub_R1.fastq -2 Reads/p5_A01_Sub_R2.fastq,Reads/p5_F03_Sub_R2.fastq,Reads/p5_A02_Sub_R2.fastq,Reads/p5_F04_Sub_R2.fastq -t 8 -o Assembly
+```
 
+Then evaluate assembly:
+```
+contig-stats.pl < Assembly/final.contigs.fa
+```
+
+Should see:
+```
+sequence #: 10566	total length: 4105582	max length: 5896	N50: 386	N90: 243
+```
+or similar.
+
+Select sequences greater than 1kbp:
+```
+mkdir Annotate
+python $DESMAN/scripts/LengthFilter.py -m 1000 Assembly/final.contigs.fa > Annotate/final_contigs_gt1k.fa
+```
+
+```
+cd Annotate
+grep -c ">" final_contigs_gt1k.fa
+```
+
+Now look for ORFs:
+```
+prodigal -i final_contigs_gt1k.fa -a final_contigs_gt1k.faa -d final_contigs_gt1k.fna -f gff -p meta -o final_contigs_gt1k.gff
+```
+Examine output files, how many ORFs? 
+
+Now run kraken on the contigs, are more contigs assigned than reads?
+
+Can you find the phage? Where might this have come from?
+
+Annotate ORFs with Kegg orthologs:
+```
+diamond blastp -d $KEGG_DB/genes/fasta/genes.dmnd -q final_contigs_gt1k.faa -p 8 -o final_contigs_gt1k_kegg.m8
+```
+Why blastp rather than blastx?
+
+Assign these to Kegg orthologs
+```
+Assign_KO.pl < final_contigs_gt1k_kegg.m8 > final_contigs_gt1k_kegg.hits
+```
