@@ -131,9 +131,41 @@ Now we want to which meta data variables are most important for community struct
 ```
 This tells us how important seasonal changes are, what variable has the most impact?
 
+A convenient way to visualise multivariate data is with an NMDS plot from the vegan package:
+```
+>library(vegan)
+>GeneraP.nmds <- metaMDS(GeneraKrakenP)
+```
+
+```
+>nmds_df<-scores(GeneraP.nmds,display=c("sites"))
+```
+
+```
+>library(RColorBrewer)
+>library(ggplot2)
+>crp2 <- colorRampPalette(c("darkblue","blue","green","orange","red"))
+>sc <- scale_colour_gradientn(colours = crp2(100), limits=c(0, 0.7))
+```
+
+```
+meta_nmds.df <- cbind.data.frame(nmds_df,metaS)
+```
+
+```
+>p<-ggplot(data=meta_nmds.df,aes(NMDS1,NMDS2,colour=AgriH,shape=Tributary)) + geom_point(size=3) + sc + theme_bw()
+```
+
+```
+>pdf("NMDS.pdf")
+>plot(p)
+>dev.off()
+```
+
+![NMDS](./Figures/NMDS.png) 
 
 ## Thames assembly based analysis
 
-<a name="multi"/>
+<a name="assembly"/>
 
 
