@@ -91,7 +91,7 @@ And then run associated script:
 CollateK.pl Kraken > GeneraKraken.csv
 ```
 
-##Thames multivariate stats
+## Thames multivariate stats
 
 <a name="multi"/>
 
@@ -132,7 +132,7 @@ Now we want to which meta data variables are most important for community struct
 This tells us how important seasonal changes are, what variable has the most impact?
 
 
-##Thames multivariate stats
+## Thames assembly based analysis
 
 <a name="multi"/>
 
