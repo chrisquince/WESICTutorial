@@ -1,15 +1,10 @@
 # WESIC Singapore Metagenomics Tutorial
 
-1. [Soil profiling](#soil)
+1. [Thames taxonomic profiling](#thames)
 
-2. [Thames taxonomic profiling](#thames)
+2. [Thames multivariate stats](#multi)
 
-3. [Thames multivariate stats](#multi)
-
-4. [Thames assembly based analysis](#assembly)
-
-
-## Soil profiling
+3. [Thames assembly based analysis](#assembly)
 
 
 ## Thames taxonomic profiling
@@ -219,6 +214,17 @@ Annotate ORFs with Kegg orthologs:
 diamond blastp -d $KEGG_DB/genes/fasta/genes.dmnd -q final_contigs_gt1k.faa -p 8 -o final_contigs_gt1k_kegg.m8
 ```
 Why blastp rather than blastx?
+
+Now we use another form of blast rpsblast to search against COG databases:
+```
+    export COGSDB_DIR=~/Databases/rpsblast_cog_db
+    $CONCOCT/scripts/RPSBLAST.sh -f final_contigs_gt1000_c10K.faa -p -c 8 -r 1
+```
+
+Then we convert rpsblast hits to COG assignments:
+```
+AssignCog.pl ~/repos/CONCOCT/scgs/cdd_to_cog.tsv < final_contigs_gt1k.out > final_contigs_gt1k.cogs
+```
 
 Assign these to Kegg orthologs
 ```
