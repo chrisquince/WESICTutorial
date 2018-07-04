@@ -1,6 +1,5 @@
 
 
-
 ## Basics of bioinformatic : Introduction to command lines
 Most workflows in bioinformatics are built with command lines in a terminal. The way to interact with files is different from graphical interface, you can't click on anything and need to type a command for the slightest operation, even changing directory. However, terminal is much more versatile than graphical interface : you dispose of various tools to explore your files, do simple text manipulation or just write simple scripts to automatize a task.   
  
