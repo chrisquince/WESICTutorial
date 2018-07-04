@@ -1,8 +1,8 @@
-﻿
 
 
 ## Basics of bioinformatic : Introduction to command lines
 Most workflows in bioinformatics are built with command lines in a terminal. The way to interact with files is different from graphical interface, you can't click on anything and need to type a command for the slightest operation, even changing directory. However, terminal is much more versatile than graphical interface : you dispose of various tools to explore your files, do simple text manipulation or just write simple scripts to automatize a task.   
+ 
 
 ### Navigation using command lines
 A command is a script/program/application .... installed on your device. To use them, you need to type their name followed by argument and options. Example : 
@@ -10,8 +10,25 @@ A command is a script/program/application .... installed on your device. To use 
     Command -option argument
 All command presented below are always present on bash terminals.
 
+ ### Connection to server
+During this tutorial we will all work each on a server connected through the internet. The first step is to open a terminal, in which we will type commands.
+On your mac, click on launchpad (the rocket), other and terminal.
+We use the ssh command to connect. 
+
+    ssh user_id@ip_adress
+Today our user id is going to be the same : ubuntu
+You will all get a different ip address, one for each server. Choose one. 
+ 
+
+    ssh ubuntu@137.205.69.3   # server A
+    ssh ubuntu@137.205.69.58  # server B
+    ssh ubuntu@137.205.69.73  # server C
+    ssh ubuntu@137.205.69.65  # server D
+
 **Get information about a function** : *man*
+
 **List all files and folders** : *ls*
+
 Try to use **man**  on **ls** A lot of different options are available. Try for yourself  the following : 
  - ls -l
  - ls -lh
@@ -21,6 +38,7 @@ Try to use **man**  on **ls** A lot of different options are available. Try for 
 Which one are folders, which one are files? 
 
 **Change directory** : *cd*
+
 Try to go into  Dummy :
 
     cd Dummy
@@ -28,7 +46,9 @@ Go to directory Data :
 
     cd Data
 You should now see a path on your terminal :
+
 *ubuntu@wesic-tutorial:~/Data*
+
 This indicate where you are : 
 
  - **~** is your home folder
@@ -95,6 +115,7 @@ Using the symbol **>** will allow to write the output of previous command into a
      grep TAG Rhizosphere_Sub.fastq > Codons_TAG.txt 
 
 **Text editors** 
+
 A few text editors are available on the terminal, 
 
  - vim
@@ -127,7 +148,7 @@ Let's write a simple script which will loop through all folders of Data, and cou
     done
 
  - **\*** is called a wild-card : it can replace anything, here it is used to select everything inside all folders insides all folders. 
- - **file** is variable which, to access the value of the variable you need to add **$*
- - **echo** is a command used to print a variable, so it is responsible for printing the value of **file** on screen  
+ - **file** is variable, to access the value of the variable you need to add **$**
+ - **echo** is a command used to print a variable, so it is responsible for printing the value of **file** on screen, and in Number_of_AAA_in_all_Data_files.txt.
  - We use **>>** instead of **>**, it allows to append at the end of a file, while **>**  would recreate a file each time
  
